@@ -5,7 +5,7 @@ export default function IdeasPage() {
 
   return (
     <main className="page">
-      <section className="panel">
+      <section className="panel panel-checker">
         <div className="page-head">
           <div>
             <h2>Project Ideas</h2>

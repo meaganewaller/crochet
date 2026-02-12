@@ -5,7 +5,7 @@ export default function YarnWishlistPage() {
 
   return (
     <main className="page">
-      <section className="panel">
+      <section className="panel panel-ribbon">
         <div className="page-head">
           <div>
             <h2>Yarn Wishlist</h2>

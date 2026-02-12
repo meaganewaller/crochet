@@ -6,7 +6,7 @@ export default function QueuePage() {
 
   return (
     <main className="page">
-      <section className="panel">
+      <section className="panel panel-checker">
         <div className="page-head">
           <div>
             <h2>Queue</h2>

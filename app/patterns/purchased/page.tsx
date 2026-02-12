@@ -5,7 +5,7 @@ export default function PurchasedPatternsPage() {
 
   return (
     <main className="page">
-      <section className="panel">
+      <section className="panel panel-ribbon">
         <div className="page-head">
           <div>
             <h2>Purchased Patterns</h2>

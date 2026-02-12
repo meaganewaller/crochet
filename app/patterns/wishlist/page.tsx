@@ -5,7 +5,7 @@ export default function PatternWishlistPage() {
 
   return (
     <main className="page">
-      <section className="panel">
+      <section className="panel panel-checker">
         <div className="page-head">
           <div>
             <h2>Pattern Wishlist</h2>

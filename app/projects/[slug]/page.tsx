@@ -28,48 +28,69 @@ export default async function ProjectDetailPage({ params }: PageProps) {
   }
 
   const sessions = getWorkSessions().filter((session) => session.projectSlug === project.slug);
+  const latestThumbnail = sessions.find((session) => session.photos[0])?.photos[0];
 
   return (
     <main className="page">
-      <section className="panel">
-        <div className="page-head">
+      <section className="panel panel-project-hero">
+        <div className="project-hero-top">
           <div>
+            <p className="eyebrow">Project Notebook</p>
             <h2>{project.title}</h2>
             <p className="item-meta">{project.summary ?? "No summary yet."}</p>
           </div>
           <span className={`badge ${project.status}`}>{project.status}</span>
         </div>
 
-        <p className="item-meta" style={{ marginTop: "0.65rem" }}>
-          Started {formatDate(project.startedOn)} · Target {formatDate(project.targetFinish)} · Hook{" "}
-          {project.hookSize ?? "-"}
-        </p>
+        <div className="project-hero-grid" style={{ marginTop: "0.9rem" }}>
+          <div className="project-hero-main">
+            {latestThumbnail ? (
+              <div className="project-hero-image-wrap">
+                <Image
+                  src={latestThumbnail.src}
+                  alt={latestThumbnail.alt ?? project.title}
+                  width={1200}
+                  height={850}
+                  className="project-hero-image"
+                />
+              </div>
+            ) : null}
+            <article className="prose" style={{ marginTop: latestThumbnail ? "0.75rem" : "0" }}>
+              <MDXRemote source={project.body} />
+            </article>
+          </div>
 
-        <div className="progress-wrap" style={{ marginTop: "0.65rem" }}>
-          <div className="progress-bar" style={{ width: `${project.progressPercent}%` }} />
+          <aside className="project-hero-aside">
+            <div className="project-meta-stack">
+              <span>Started {formatDate(project.startedOn)}</span>
+              <span>Target {formatDate(project.targetFinish)}</span>
+              <span>Hook {project.hookSize ?? "-"}</span>
+              <span>{sessions.length} sessions logged</span>
+            </div>
+
+            <div className="progress-wrap" style={{ marginTop: "0.65rem" }}>
+              <div className="progress-bar" style={{ width: `${project.progressPercent}%` }} />
+            </div>
+            <p className="item-meta" style={{ marginTop: "0.35rem" }}>
+              {project.progressPercent}% complete
+            </p>
+
+            {project.pattern ? (
+              <p className="item-meta" style={{ marginTop: "0.55rem" }}>
+                Pattern: {project.pattern}
+              </p>
+            ) : null}
+
+            {project.yarns.length > 0 ? (
+              <p className="item-meta" style={{ marginTop: "0.25rem" }}>
+                Yarns: {project.yarns.join(", ")}
+              </p>
+            ) : null}
+          </aside>
         </div>
-        <p className="item-meta" style={{ marginTop: "0.35rem" }}>
-          {project.progressPercent}% complete
-        </p>
-
-        {project.yarns.length > 0 ? (
-          <p className="item-meta" style={{ marginTop: "0.45rem" }}>
-            Yarns: {project.yarns.join(", ")}
-          </p>
-        ) : null}
-
-        {project.pattern ? (
-          <p className="item-meta" style={{ marginTop: "0.15rem" }}>
-            Pattern: {project.pattern}
-          </p>
-        ) : null}
-
-        <article className="prose" style={{ marginTop: "0.8rem" }}>
-          <MDXRemote source={project.body} />
-        </article>
       </section>
 
-      <section className="panel">
+      <section className="panel panel-timeline">
         <div className="page-head">
           <h3>Work Sessions</h3>
           <Link href="/work-sessions" className="item-meta">
