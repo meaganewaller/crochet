@@ -40,11 +40,11 @@ export default function RootLayout({
                 Static TypeScript + MDX workspace for projects, yarn, and future makes.
               </p>
             </div>
-            <div className="header-badges" aria-label="Site tags">
+            <section className="header-badges" aria-label="Site tags">
               <span>Single Maker</span>
               <span>Pastel Archive</span>
               <span>Project Timeline</span>
-            </div>
+            </section>
           </header>
           <div className="checker-ribbon" aria-hidden />
           <nav className="site-nav" aria-label="Primary">

@@ -27,18 +27,11 @@
   box-sizing: border-box;
 }
 
-html,
 body {
-  margin: 0;
-  padding: 0;
-}
-
-body {
-  min-height: 100vh;
+  background-image: url("/assets/bg-top-lace.gif");
+  background-repeat: repeat-x, repeat;
   color: var(--ink);
-  background: linear-gradient(170deg, var(--bg-top) 0%, var(--bg-bottom) 100%);
   font-family: "Avenir Next", "Futura", "Trebuchet MS", sans-serif;
-  position: relative;
 }
 
 a {
@@ -60,7 +53,7 @@ a {
 
 .shell {
   width: min(1100px, 92vw);
-  margin: 0 auto;
+  margin: 2em auto;
   padding: 1.4rem 0 3rem;
   position: relative;
   z-index: 2;
