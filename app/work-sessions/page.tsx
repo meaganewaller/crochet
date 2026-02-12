@@ -37,7 +37,9 @@ export default function WorkSessionsPage() {
               {sessions.map((session) => (
                 <tr key={session.slug}>
                   <td>{formatDate(session.sessionDate)}</td>
-                  <td>{session.title}</td>
+                  <td>
+                    <Link href={`/work-sessions/${session.slug}`}>{session.title}</Link>
+                  </td>
                   <td>
                     <Link href={`/projects/${session.projectSlug}`}>{session.projectSlug}</Link>
                   </td>

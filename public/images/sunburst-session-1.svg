@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 420" role="img" aria-label="Sunburst granny squares in warm tones">
+  <defs>
+    <linearGradient id="bg" x1="0" x2="1" y1="0" y2="1">
+      <stop offset="0%" stop-color="#f7e5cf"/>
+      <stop offset="100%" stop-color="#e6b48a"/>
+    </linearGradient>
+  </defs>
+  <rect width="640" height="420" fill="url(#bg)"/>
+  <g transform="translate(90 70)">
+    <rect x="0" y="0" width="140" height="140" rx="12" fill="#fff4e6" stroke="#b66d3f" stroke-width="8"/>
+    <circle cx="70" cy="70" r="34" fill="#bf6f3f"/>
+  </g>
+  <g transform="translate(250 120)">
+    <rect x="0" y="0" width="140" height="140" rx="12" fill="#fff4e6" stroke="#7a9a63" stroke-width="8"/>
+    <circle cx="70" cy="70" r="34" fill="#9e4f26"/>
+  </g>
+  <g transform="translate(410 70)">
+    <rect x="0" y="0" width="140" height="140" rx="12" fill="#fff4e6" stroke="#b66d3f" stroke-width="8"/>
+    <circle cx="70" cy="70" r="34" fill="#7a9a63"/>
+  </g>
+  <text x="36" y="384" font-family="Avenir Next, Arial, sans-serif" font-size="28" fill="#5b3a24">Sunburst Granny Session</text>
+</svg>

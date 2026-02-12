@@ -36,7 +36,14 @@ export type WorkSession = {
   progressBefore?: number;
   progressAfter?: number;
   summary?: string;
+  photos: WorkSessionPhoto[];
   body: string;
+};
+
+export type WorkSessionPhoto = {
+  src: string;
+  alt?: string;
+  caption?: string;
 };
 
 export type QueueItem = {
@@ -127,10 +134,86 @@ function toStringArray(value: unknown): string[] {
   return value.filter((item): item is string => typeof item === "string");
 }
 
+function toRecord(value: unknown): Record<string, unknown> | undefined {
+  if (typeof value !== "object" || value === null || Array.isArray(value)) {
+    return undefined;
+  }
+
+  return value as Record<string, unknown>;
+}
+
 function toNumber(value: unknown, fallback: number): number;
 function toNumber(value: unknown, fallback: undefined): number | undefined;
 function toNumber(value: unknown, fallback: number | undefined): number | undefined {
   return typeof value === "number" ? value : fallback;
+}
+
+function toWorkSessionPhotos(value: unknown): WorkSessionPhoto[] {
+  if (!Array.isArray(value)) {
+    return [];
+  }
+
+  const photos: WorkSessionPhoto[] = [];
+
+  for (const photo of value) {
+    const rawPhoto = toRecord(photo);
+    if (!rawPhoto) {
+      continue;
+    }
+
+    const src = toStringValue(rawPhoto.src);
+    if (!src) {
+      continue;
+    }
+
+    const item: WorkSessionPhoto = { src };
+    const alt = toStringValue(rawPhoto.alt);
+    const caption = toStringValue(rawPhoto.caption);
+
+    if (alt) {
+      item.alt = alt;
+    }
+
+    if (caption) {
+      item.caption = caption;
+    }
+
+    photos.push(item);
+  }
+
+  return photos;
+}
+
+function toTimestamp(value: string): number | undefined {
+  const timestamp = new Date(value).valueOf();
+  if (Number.isNaN(timestamp)) {
+    return undefined;
+  }
+
+  return timestamp;
+}
+
+function compareSessionsByDate(a: WorkSession, b: WorkSession, direction: "asc" | "desc"): number {
+  const left = toTimestamp(a.sessionDate);
+  const right = toTimestamp(b.sessionDate);
+
+  if (typeof left !== "number" && typeof right !== "number") {
+    return a.slug.localeCompare(b.slug);
+  }
+
+  if (typeof left !== "number") {
+    return 1;
+  }
+
+  if (typeof right !== "number") {
+    return -1;
+  }
+
+  if (direction === "asc") {
+    return left - right;
+  }
+
+  return right - left;
 }
 
 export function getProjects(): Project[] {
@@ -172,31 +255,42 @@ export function getWorkSessions(): WorkSession[] {
       progressBefore: toNumber(entry.data.progressBefore, undefined),
       progressAfter: toNumber(entry.data.progressAfter, undefined),
       summary: toStringValue(entry.data.summary),
+      photos: toWorkSessionPhotos(entry.data.photos),
       body: entry.body
     }))
-    .sort((a, b) => {
-      const left = new Date(a.sessionDate).valueOf();
-      const right = new Date(b.sessionDate).valueOf();
-      return Number.isNaN(right) || Number.isNaN(left) ? 0 : right - left;
-    });
+    .sort((a, b) => compareSessionsByDate(a, b, "desc"));
+}
+
+export function getWorkSessionBySlug(slug: string): WorkSession | undefined {
+  return getWorkSessions().find((session) => session.slug === slug);
+}
+
+export function getWorkSessionsByProject(projectSlug: string, direction: "asc" | "desc"): WorkSession[] {
+  return getWorkSessions()
+    .filter((session) => session.projectSlug === projectSlug)
+    .sort((a, b) => compareSessionsByDate(a, b, direction));
 }
 
 export function getQueueItems(): QueueItem[] {
   return readRawCollection("queue")
-    .map((entry) => ({
-      slug: entry.slug,
-      title: toStringValue(entry.data.title) ?? entry.slug,
-      priority:
-        entry.data.priority === "high" || entry.data.priority === "low"
-          ? entry.data.priority
-          : "medium",
-      intendedStart: toStringValue(entry.data.intendedStart),
-      pattern: toStringValue(entry.data.pattern),
-      summary: toStringValue(entry.data.summary),
-      body: entry.body
-    }))
+    .map((entry) => {
+      let priority: QueueItem["priority"] = "medium";
+      if (entry.data.priority === "high" || entry.data.priority === "low") {
+        priority = entry.data.priority;
+      }
+
+      return {
+        slug: entry.slug,
+        title: toStringValue(entry.data.title) ?? entry.slug,
+        priority,
+        intendedStart: toStringValue(entry.data.intendedStart),
+        pattern: toStringValue(entry.data.pattern),
+        summary: toStringValue(entry.data.summary),
+        body: entry.body
+      };
+    })
     .sort((a, b) => {
-      const ranking = { high: 3, medium: 2, low: 1 };
+      const ranking: Record<QueueItem["priority"], number> = { high: 3, medium: 2, low: 1 };
       return ranking[b.priority] - ranking[a.priority];
     });
 }

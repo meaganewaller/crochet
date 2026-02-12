@@ -62,6 +62,10 @@ minutes: 90
 progressBefore: 35
 progressAfter: 42
 summary: "What changed"
+photos:
+  - src: "/images/session-1.jpg" # put files in /public/images
+    alt: "Accessible description"
+    caption: "Optional caption"
 ---
 
 Optional deep notes.

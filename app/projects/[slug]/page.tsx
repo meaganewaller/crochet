@@ -96,7 +96,9 @@ export default async function ProjectDetailPage({ params }: PageProps) {
               {sessions.map((session) => (
                 <tr key={session.slug}>
                   <td>{formatDate(session.sessionDate)}</td>
-                  <td>{session.title}</td>
+                  <td>
+                    <Link href={`/work-sessions/${session.slug}`}>{session.title}</Link>
+                  </td>
                   <td>{session.minutes}</td>
                   <td>
                     {typeof session.progressBefore === "number" && typeof session.progressAfter === "number"
