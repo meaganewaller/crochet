@@ -1,8 +1,8 @@
 import Link from "next/link";
-import Image from "next/image";
 import { notFound } from "next/navigation";
 import { MDXRemote } from "next-mdx-remote/rsc";
 
+import SessionPhotoGallery from "@/components/session-photo-gallery";
 import {
   getProjectBySlug,
   getWorkSessionBySlug,
@@ -67,20 +67,7 @@ export default async function WorkSessionDetailPage({ params }: PageProps) {
         {session.photos.length > 0 ? (
           <section style={{ marginTop: "0.8rem" }}>
             <h3>Session Photos</h3>
-            <div className="photo-grid" style={{ marginTop: "0.65rem" }}>
-              {session.photos.map((photo, index) => (
-                <figure key={`${photo.src}-${index}`} className="photo-card">
-                  <Image
-                    src={photo.src}
-                    alt={photo.alt ?? session.title}
-                    width={1200}
-                    height={900}
-                    className="session-photo"
-                  />
-                  {photo.caption ? <figcaption>{photo.caption}</figcaption> : null}
-                </figure>
-              ))}
-            </div>
+            <SessionPhotoGallery photos={session.photos} sessionTitle={session.title} />
           </section>
         ) : null}
 

@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 420" role="img" aria-label="Rows of joined granny squares with border yarn">
+  <defs>
+    <linearGradient id="bg3" x1="0" x2="1" y1="0" y2="1">
+      <stop offset="0%" stop-color="#f9ebd6"/>
+      <stop offset="100%" stop-color="#d6a57d"/>
+    </linearGradient>
+  </defs>
+  <rect width="640" height="420" fill="url(#bg3)"/>
+  <g fill="#fff7ee" stroke="#b06a3e" stroke-width="7">
+    <rect x="60" y="85" width="520" height="58" rx="12"/>
+    <rect x="60" y="157" width="520" height="58" rx="12"/>
+    <rect x="60" y="229" width="520" height="58" rx="12"/>
+  </g>
+  <g fill="#8d9f6f">
+    <circle cx="130" cy="114" r="14"/>
+    <circle cx="205" cy="186" r="14"/>
+    <circle cx="278" cy="258" r="14"/>
+    <circle cx="355" cy="114" r="14"/>
+    <circle cx="430" cy="186" r="14"/>
+    <circle cx="505" cy="258" r="14"/>
+  </g>
+  <text x="34" y="384" font-family="Avenir Next, Arial, sans-serif" font-size="28" fill="#5b3a24">Border Color Test</text>
+</svg>

@@ -66,6 +66,13 @@ photos:
   - src: "/images/session-1.jpg" # put files in /public/images
     alt: "Accessible description"
     caption: "Optional caption"
+  - src: "/images/session-2.jpg"
+    caption: "Second photo in the same gallery"
+# Optional shorthand:
+# gallery:
+#   - "/images/session-3.jpg"
+#   - src: "/images/session-4.jpg"
+#     alt: "Another angle"
 ---
 
 Optional deep notes.

@@ -156,6 +156,11 @@ function toWorkSessionPhotos(value: unknown): WorkSessionPhoto[] {
   const photos: WorkSessionPhoto[] = [];
 
   for (const photo of value) {
+    if (typeof photo === "string") {
+      photos.push({ src: photo });
+      continue;
+    }
+
     const rawPhoto = toRecord(photo);
     if (!rawPhoto) {
       continue;
@@ -255,7 +260,7 @@ export function getWorkSessions(): WorkSession[] {
       progressBefore: toNumber(entry.data.progressBefore, undefined),
       progressAfter: toNumber(entry.data.progressAfter, undefined),
       summary: toStringValue(entry.data.summary),
-      photos: toWorkSessionPhotos(entry.data.photos),
+      photos: toWorkSessionPhotos(entry.data.photos ?? entry.data.gallery),
       body: entry.body
     }))
     .sort((a, b) => compareSessionsByDate(a, b, "desc"));

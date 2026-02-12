@@ -1,4 +1,5 @@
 import Link from "next/link";
+import Image from "next/image";
 import { notFound } from "next/navigation";
 import { MDXRemote } from "next-mdx-remote/rsc";
 
@@ -75,41 +76,52 @@ export default async function ProjectDetailPage({ params }: PageProps) {
             All sessions
           </Link>
         </div>
-        <div style={{ marginTop: "0.6rem", overflowX: "auto" }}>
-          <table className="table">
-            <thead>
-              <tr>
-                <th>Date</th>
-                <th>Title</th>
-                <th>Minutes</th>
-                <th>Progress</th>
-              </tr>
-            </thead>
-            <tbody>
-              {sessions.length === 0 ? (
-                <tr>
-                  <td colSpan={4} className="item-meta">
-                    No work sessions logged yet.
-                  </td>
-                </tr>
-              ) : null}
-              {sessions.map((session) => (
-                <tr key={session.slug}>
-                  <td>{formatDate(session.sessionDate)}</td>
-                  <td>
-                    <Link href={`/work-sessions/${session.slug}`}>{session.title}</Link>
-                  </td>
-                  <td>{session.minutes}</td>
-                  <td>
-                    {typeof session.progressBefore === "number" && typeof session.progressAfter === "number"
-                      ? `${session.progressBefore}% -> ${session.progressAfter}%`
-                      : "-"}
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
+        {sessions.length === 0 ? (
+          <p className="item-meta" style={{ marginTop: "0.8rem" }}>
+            No work sessions logged yet.
+          </p>
+        ) : (
+          <ol className="project-session-timeline" style={{ marginTop: "0.8rem" }}>
+            {sessions.map((session) => {
+              const thumbnail = session.photos[0];
+              const progressText =
+                typeof session.progressBefore === "number" && typeof session.progressAfter === "number"
+                  ? `${session.progressBefore}% -> ${session.progressAfter}%`
+                  : "Progress not tracked";
+
+              return (
+                <li key={session.slug} className="project-session-entry">
+                  <article className="project-session-card">
+                    <Link href={`/work-sessions/${session.slug}`} className="project-session-thumb-link">
+                      {thumbnail ? (
+                        <Image
+                          src={thumbnail.src}
+                          alt={thumbnail.alt ?? session.title}
+                          width={780}
+                          height={560}
+                          className="project-session-thumb"
+                        />
+                      ) : (
+                        <div className="project-session-thumb project-session-thumb-fallback">No photo</div>
+                      )}
+                    </Link>
+                    <div className="project-session-body">
+                      <p className="project-session-date">{formatDate(session.sessionDate)}</p>
+                      <h4 className="project-session-title">
+                        <Link href={`/work-sessions/${session.slug}`}>{session.title}</Link>
+                      </h4>
+                      <p className="item-meta">{session.summary ?? "No summary yet."}</p>
+                      <div className="project-session-meta">
+                        <span>{session.minutes} min</span>
+                        <span>{progressText}</span>
+                      </div>
+                    </div>
+                  </article>
+                </li>
+              );
+            })}
+          </ol>
+        )}
       </section>
     </main>
   );
