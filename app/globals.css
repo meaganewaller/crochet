@@ -28,7 +28,7 @@
 }
 
 body {
-  background-image: url("/assets/bg-top-lace.gif");
+  background-image: url("/assets/bg-top-lace.gif"), url("/assets/pinkcheck.gif");
   background-repeat: repeat-x, repeat;
   color: var(--ink);
   font-family: "Avenir Next", "Futura", "Trebuchet MS", sans-serif;

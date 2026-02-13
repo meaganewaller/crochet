@@ -30,7 +30,6 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body>
-        <div className="background-wash" aria-hidden />
         <div className="shell">
           <header className="site-header">
             <div className="site-header-main">
