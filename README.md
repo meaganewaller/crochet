@@ -81,7 +81,7 @@ Optional deep notes.
 ### Other folders
 
 - `content/queue`: `title`, `priority` (`high|medium|low`), `intendedStart`, `pattern`, `summary`
-- `content/patterns/purchased`: `title`, `designer`, `source`, `pricePaid`, `tags[]`, `summary`
+- `content/patterns/purchased`: `title`, `designer`, `source`, `pricePaid`, `tags[]`, `images[]`, `summary`
 - `content/patterns/wishlist`: `title`, `designer`, `source`, `tags[]`, `summary`
 - `content/patterns/saved`: `title`, `designer`, `source`, `tags[]`, `summary`
 - `content/yarn/inventory`: `title`, `brand`, `colorway`, `fiber`, `weight`, `quantity`, `unit`, `summary`
@@ -93,3 +93,4 @@ Optional deep notes.
 - This is intentionally single-user and file-based.
 - No authentication or database is included.
 - Routes are generated from file names (`my-project.mdx` -> `/projects/my-project`).
+- Purchased pattern detail pages are generated at `/patterns/purchased/[slug]` and render `images[]` as a gallery.

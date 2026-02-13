@@ -67,7 +67,7 @@ export default async function WorkSessionDetailPage({ params }: PageProps) {
         {session.photos.length > 0 ? (
           <section style={{ marginTop: "0.8rem" }}>
             <h3>Session Photos</h3>
-            <SessionPhotoGallery photos={session.photos} sessionTitle={session.title} />
+            <SessionPhotoGallery photos={session.photos} titleForAlt={session.title} />
           </section>
         ) : null}
 

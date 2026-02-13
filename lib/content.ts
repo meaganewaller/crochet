@@ -63,6 +63,7 @@ export type Pattern = {
   source?: string;
   pricePaid?: string;
   tags: string[];
+  images: string[];
   summary?: string;
   body: string;
 };
@@ -308,6 +309,7 @@ function readPatternCollection(pathName: string): Pattern[] {
     source: toStringValue(entry.data.source),
     pricePaid: toStringValue(entry.data.pricePaid),
     tags: toStringArray(entry.data.tags),
+    images: toStringArray(entry.data.images),
     summary: toStringValue(entry.data.summary),
     body: entry.body
   }));
@@ -315,6 +317,10 @@ function readPatternCollection(pathName: string): Pattern[] {
 
 export function getPurchasedPatterns(): Pattern[] {
   return readPatternCollection("patterns/purchased");
+}
+
+export function getPurchasedPatternBySlug(slug: string): Pattern | undefined {
+  return getPurchasedPatterns().find((pattern) => pattern.slug === slug);
 }
 
 export function getPatternWishlist(): Pattern[] {

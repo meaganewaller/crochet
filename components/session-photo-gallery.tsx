@@ -11,10 +11,10 @@ type Photo = {
 
 type SessionPhotoGalleryProps = {
   photos: Photo[];
-  sessionTitle: string;
+  titleForAlt: string;
 };
 
-export default function SessionPhotoGallery({ photos, sessionTitle }: SessionPhotoGalleryProps) {
+export default function SessionPhotoGallery({ photos, titleForAlt }: SessionPhotoGalleryProps) {
   const [activeIndex, setActiveIndex] = useState<number | null>(null);
   const activePhoto = useMemo(
     () => (typeof activeIndex === "number" ? photos[activeIndex] : undefined),
@@ -74,7 +74,7 @@ export default function SessionPhotoGallery({ photos, sessionTitle }: SessionPho
             >
               <Image
                 src={photo.src}
-                alt={photo.alt ?? `${sessionTitle} photo ${index + 1}`}
+                alt={photo.alt ?? `${titleForAlt} image ${index + 1}`}
                 width={1200}
                 height={900}
                 className="session-photo"
@@ -90,7 +90,7 @@ export default function SessionPhotoGallery({ photos, sessionTitle }: SessionPho
           className="lightbox"
           role="dialog"
           aria-modal="true"
-          aria-label="Session photo viewer"
+          aria-label="Image viewer"
           onClick={(event) => {
             if (event.target === event.currentTarget) {
               setActiveIndex(null);
@@ -114,7 +114,7 @@ export default function SessionPhotoGallery({ photos, sessionTitle }: SessionPho
             <div className="lightbox-frame">
               <Image
                 src={activePhoto.src}
-                alt={activePhoto.alt ?? sessionTitle}
+                alt={activePhoto.alt ?? titleForAlt}
                 width={1800}
                 height={1400}
                 className="lightbox-photo"

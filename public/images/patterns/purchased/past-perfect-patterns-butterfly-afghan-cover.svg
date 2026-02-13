@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="900" viewBox="0 0 1200 900" role="img" aria-label="Past Perfect Patterns Butterfly Afghan pattern cover placeholder">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#ffd9ea"/>
+      <stop offset="50%" stop-color="#d9ecff"/>
+      <stop offset="100%" stop-color="#def3e2"/>
+    </linearGradient>
+    <pattern id="checks" width="90" height="90" patternUnits="userSpaceOnUse">
+      <rect width="90" height="90" fill="#fff8fc"/>
+      <rect width="45" height="45" fill="#fbe8f2"/>
+      <rect x="45" y="45" width="45" height="45" fill="#e8f2ff"/>
+    </pattern>
+  </defs>
+  <rect width="1200" height="900" fill="url(#bg)"/>
+  <rect x="70" y="70" width="1060" height="760" rx="34" fill="url(#checks)" stroke="#d4c2df" stroke-width="4"/>
+  <rect x="140" y="180" width="920" height="540" rx="26" fill="#fffdfb" stroke="#ceb8de" stroke-width="3"/>
+  <text x="40" y="0" transform="translate(240 350)" fill="#6b3f88" font-size="52" font-family="Bookman Old Style, Palatino, serif" font-weight="700"><tspan x="40" dy="0">Past Perfect</tspan><tspan x="40" dy="34">Patterns Butterfly</tspan><tspan x="40" dy="34">Afghan</tspan></text>
+  <text x="240" y="610" fill="#9b5db1" font-size="28" font-family="Avenir Next, Trebuchet MS, sans-serif" letter-spacing="3">PURCHASED CROCHET PATTERN</text>
+</svg>
