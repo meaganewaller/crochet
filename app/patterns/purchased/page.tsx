@@ -3,6 +3,19 @@ import Link from "next/link";
 
 import { getPurchasedPatterns } from "@/lib/content";
 
+function formatPurchasedOn(value?: string): string {
+  if (!value) {
+    return "-";
+  }
+
+  const date = new Date(value);
+  if (Number.isNaN(date.valueOf())) {
+    return value;
+  }
+
+  return new Intl.DateTimeFormat("en-US", { month: "short", day: "numeric", year: "numeric" }).format(date);
+}
+
 export default function PurchasedPatternsPage() {
   const patterns = getPurchasedPatterns();
 
@@ -39,7 +52,8 @@ export default function PurchasedPatternsPage() {
                 </h3>
                 <p className="item-meta">{pattern.summary ?? "No summary yet."}</p>
                 <p className="item-meta" style={{ marginTop: "0.35rem" }}>
-                  Designer: {pattern.designer ?? "-"} · Source: {pattern.source ?? "-"} · Paid: {pattern.pricePaid ?? "-"}
+                  Designer: {pattern.designer ?? "-"} · Source: {pattern.source ?? "-"} · Purchased:{" "}
+                  {formatPurchasedOn(pattern.purchasedOn)} · Paid: {pattern.pricePaid ?? "-"}
                 </p>
                 {pattern.tags.length > 0 ? (
                   <p className="item-meta" style={{ marginTop: "0.2rem" }}>

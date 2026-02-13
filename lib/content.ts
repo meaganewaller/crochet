@@ -61,6 +61,7 @@ export type Pattern = {
   title: string;
   designer?: string;
   source?: string;
+  purchasedOn?: string;
   pricePaid?: string;
   tags: string[];
   images: string[];
@@ -125,6 +126,18 @@ function readRawCollection(collection: string): RawEntry[] {
 
 function toStringValue(value: unknown): string | undefined {
   return typeof value === "string" ? value : undefined;
+}
+
+function toDateStringValue(value: unknown): string | undefined {
+  if (typeof value === "string") {
+    return value;
+  }
+
+  if (value instanceof Date && !Number.isNaN(value.valueOf())) {
+    return value.toISOString().slice(0, 10);
+  }
+
+  return undefined;
 }
 
 function toStringArray(value: unknown): string[] {
@@ -233,8 +246,8 @@ export function getProjects(): Project[] {
         slug: entry.slug,
         title: toStringValue(entry.data.title) ?? entry.slug,
         status: safeStatus,
-        startedOn: toStringValue(entry.data.startedOn),
-        targetFinish: toStringValue(entry.data.targetFinish),
+        startedOn: toDateStringValue(entry.data.startedOn),
+        targetFinish: toDateStringValue(entry.data.targetFinish),
         pattern: toStringValue(entry.data.pattern),
         hookSize: toStringValue(entry.data.hookSize),
         yarns: toStringArray(entry.data.yarns),
@@ -256,7 +269,7 @@ export function getWorkSessions(): WorkSession[] {
       slug: entry.slug,
       title: toStringValue(entry.data.title) ?? entry.slug,
       projectSlug: toStringValue(entry.data.projectSlug) ?? "",
-      sessionDate: toStringValue(entry.data.sessionDate) ?? "",
+      sessionDate: toDateStringValue(entry.data.sessionDate) ?? "",
       minutes: toNumber(entry.data.minutes, 0),
       progressBefore: toNumber(entry.data.progressBefore, undefined),
       progressAfter: toNumber(entry.data.progressAfter, undefined),
@@ -289,7 +302,7 @@ export function getQueueItems(): QueueItem[] {
         slug: entry.slug,
         title: toStringValue(entry.data.title) ?? entry.slug,
         priority,
-        intendedStart: toStringValue(entry.data.intendedStart),
+        intendedStart: toDateStringValue(entry.data.intendedStart),
         pattern: toStringValue(entry.data.pattern),
         summary: toStringValue(entry.data.summary),
         body: entry.body
@@ -307,6 +320,7 @@ function readPatternCollection(pathName: string): Pattern[] {
     title: toStringValue(entry.data.title) ?? entry.slug,
     designer: toStringValue(entry.data.designer),
     source: toStringValue(entry.data.source),
+    purchasedOn: toDateStringValue(entry.data.purchasedOn),
     pricePaid: toStringValue(entry.data.pricePaid),
     tags: toStringArray(entry.data.tags),
     images: toStringArray(entry.data.images),
@@ -316,7 +330,24 @@ function readPatternCollection(pathName: string): Pattern[] {
 }
 
 export function getPurchasedPatterns(): Pattern[] {
-  return readPatternCollection("patterns/purchased");
+  return readPatternCollection("patterns/purchased").sort((a, b) => {
+    const left = toTimestamp(a.purchasedOn ?? "");
+    const right = toTimestamp(b.purchasedOn ?? "");
+
+    if (typeof left === "number" && typeof right === "number") {
+      return right - left;
+    }
+
+    if (typeof left === "number") {
+      return -1;
+    }
+
+    if (typeof right === "number") {
+      return 1;
+    }
+
+    return a.title.localeCompare(b.title);
+  });
 }
 
 export function getPurchasedPatternBySlug(slug: string): Pattern | undefined {

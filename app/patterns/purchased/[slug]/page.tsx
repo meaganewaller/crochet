@@ -5,6 +5,19 @@ import { MDXRemote } from "next-mdx-remote/rsc";
 import SessionPhotoGallery from "@/components/session-photo-gallery";
 import { getPurchasedPatternBySlug, getPurchasedPatterns } from "@/lib/content";
 
+function formatPurchasedOn(value?: string): string {
+  if (!value) {
+    return "Unknown";
+  }
+
+  const date = new Date(value);
+  if (Number.isNaN(date.valueOf())) {
+    return value;
+  }
+
+  return new Intl.DateTimeFormat("en-US", { month: "long", day: "numeric", year: "numeric" }).format(date);
+}
+
 type PageProps = {
   params: Promise<{
     slug: string;
@@ -46,6 +59,7 @@ export default async function PurchasedPatternDetailPage({ params }: PageProps) 
         <div className="pattern-detail-meta" style={{ marginTop: "0.8rem" }}>
           <span>Designer: {pattern.designer ?? "Unknown"}</span>
           <span>Source: {pattern.source ?? "Unknown"}</span>
+          <span>Purchased: {formatPurchasedOn(pattern.purchasedOn)}</span>
           <span>Paid: {pattern.pricePaid ?? "Unknown"}</span>
         </div>
 
